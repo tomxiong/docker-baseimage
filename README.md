@@ -5,7 +5,6 @@ docker-baseimage base on phusion/baseimage-docker ... with the difference that o
 
 This image will be use to builds others image for quantumobject at the moment ....
 
-please don't use at this moment still no ready 
 
 use documentation from  
 https://github.com/phusion/baseimage-docker 
