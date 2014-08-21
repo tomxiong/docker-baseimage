@@ -5,6 +5,7 @@ set -x
 
 ## Install init process.
 cp /build/bin/my_init /sbin/
+chmod 750 /sbin/my_init
 mkdir -p /etc/my_init.d
 mkdir -p /etc/container_environment
 touch /etc/container_environment.sh
