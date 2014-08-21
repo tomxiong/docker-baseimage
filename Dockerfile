@@ -1,5 +1,5 @@
 FROM ubuntu:14.04
-MAINTAINER Phusion <info@phusion.nl>
+MAINTAINER Phusion <info@phusion.nl> QuantumObject <angel@quantumobject.com>
 
 ENV HOME /root
 RUN mkdir -p /build
