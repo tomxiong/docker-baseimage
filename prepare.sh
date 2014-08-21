@@ -35,6 +35,7 @@ ln -sf /bin/true /usr/bin/ischroot
 mkdir -p /etc/workaround-docker-2267
 ln -s /etc/workaround-docker-2267 /cte
 cp /build/bin/workaround-docker-2267 /usr/bin/
+chmod 750 /usr/bin/workaround-docker-2267
 
 ## Install HTTPS support for APT.
 $minimal_apt_get_install apt-transport-https ca-certificates
