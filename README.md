@@ -233,3 +233,27 @@ The following example runs `ls` without running the startup files and with less 
 
 <a name="run_inside_existing_container"></a>
 ### Running a command in an existing, running container
+<a name="login_nsenter"></a>
+### Login to the container, or running a command inside it, via nsenter
+
+You can use the `nsenter` tool on the Docker host OS to login to any container that is based on baseimage-docker. You can also use it to run a command inside a running container. `nsenter` works by using Linux kernel system calls.
+
+Here's how it compares to [using SSH to login to the container or to run a command inside it](#login_ssh):
+
+ * Pros
+   * Does not require running an SSH daemon inside the container.
+   * Does not require setting up SSH keys.
+   * Works on any container, even containers not based on baseimage-docker.
+ * Cons
+   * Processes executed by `nsenter` behave in a slightly different manner than normal. For example, they cannot be killed by any normal processes inside the container. This applies to all child processes as well.
+   * If the `nsenter` process is terminated by a signal (e.g. with the `kill` command), then the command that is executed by nsenter is *not* killed and cleaned up. You will have to do that manually. (Note that terminal control commands like Ctrl-C *do* clean up all child processes, because terminal signals are sent to all processes in the terminal session.)
+   * Requires learning another tool.
+   * Requires root privileges on the Docker host.
+   * Requires the `nsenter` tool to be available on the Docker host. At the time of writing (July 2014), most Linux distributions do not ship it. However, baseimage-docker provides a precompiled binary, and allows you to easily use it, through its [docker-bash](#docker_bash) tool.
+   * Not possible to allow users to login to the container without also letting them login to the Docker host.
+
+<a name="nsenter_usage"></a>
+#### Usage
+
+First, ensure that `nsenter` is installed. At the time of writing (July 2014), almost no Linux distribution ships the `nsenter` tool. However, we provide [a precompiled binary](#docker_bash) that anybody can use.
+
