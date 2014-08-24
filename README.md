@@ -257,3 +257,34 @@ Here's how it compares to [using SSH to login to the container or to run a comma
 
 First, ensure that `nsenter` is installed. At the time of writing (July 2014), almost no Linux distribution ships the `nsenter` tool. However, we provide [a precompiled binary](#docker_bash) that anybody can use.
 
+Now that you have the container's main process PID, you can use `nsenter` to login to the container, or to execute a command inside it:
+
+    # Login to the container
+    nsenter --target <MAIN PROCESS PID> --mount --uts --ipc --net --pid bash -l
+
+    # Running a command inside the container
+    nsenter --target <MAIN PROCESS PID> --mount --uts --ipc --net --pid -- echo hello world
+    
+<a name="docker_bash"></a>
+#### The `docker-bash` tool
+
+Looking up the main process PID of a container and typing the long nsenter command quickly becomes tedious. Luckily, we provide the `docker-bash` tool which automates this process. This tool is to be run on the *Docker host*, not inside a Docker container.
+
+This tool also comes with a precompiled `nsenter` binary, so that you don't have to install `nsenter` yourself. `docker-bash` works out-of-the-box!
+
+First, install the tool on the Docker host:
+
+    curl --fail -L -O https://github.com/phusion/baseimage-docker/archive/master.tar.gz && \
+    tar xzf master.tar.gz && \
+    sudo ./baseimage-docker-master/install-tools.sh
+
+Then run the tool as follows to login to a container:
+
+    docker-bash YOUR-CONTAINER-ID
+
+You can lookup `YOUR-CONTAINER-ID` by running `docker ps`.
+
+By default, `docker-bash` will open a Bash session. You can also tell it to run a command, and then exit:
+
+    docker-bash YOUR-CONTAINER-ID echo hello world
+    
