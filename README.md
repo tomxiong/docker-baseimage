@@ -107,3 +107,75 @@ You can verify that it works, as follows:
 If you've looked carefully, you'll notice that the 'echo' command actually prints a newline. Why does $MY_NAME not contain a newline then? It's because `my_init` strips the trailing newline, if any. If you intended on the value having a newline, you should add *another* newline, like this:
 
     RUN echo -e "Apachai Hopachai\n" > /etc/container_environment/MY_NAME
+    
+  <a name="envvar_dumps"></a>
+#### Environment variable dumps
+
+While the previously mentioned mechanism is good for centrally defining environment variables, it by itself does not prevent services (e.g. Nginx) from changing and resetting environment variables from child processes. However, the `my_init` mechanism does make it easy for you to query what the original environment variables are.
+
+During startup, right after importing environment variables from `/etc/container_environment`, `my_init` will dump all its environment variables (that is, all variables imported from `container_environment`, as well as all variables it picked up from `docker run --env`) to the following locations, in the following formats:
+
+ * `/etc/container_environment`
+ * `/etc/container_environment.sh` - a dump of the environment variables in Bash format. You can source the file directly from a Bash shell script.
+ * `/etc/container_environment.json` - a dump of the environment variables in JSON format.
+
+The multiple formats makes it easy for you to query the original environment variables no matter which language your scripts/apps are written in.
+
+Here is an example shell session showing you how the dumps look like:
+
+    $ docker run -t -i \
+      --env FOO=bar --env HELLO='my beautiful world' \
+      phusion/baseimage:<VERSION> /sbin/my_init -- \
+      bash -l
+    ...
+    *** Running bash -l...
+    # ls /etc/container_environment
+    FOO  HELLO  HOME  HOSTNAME  PATH  TERM  container
+    # cat /etc/container_environment/HELLO; echo
+    my beautiful world
+    # cat /etc/container_environment.json; echo
+    {"TERM": "xterm", "container": "lxc", "HOSTNAME": "f45449f06950", "HOME": "/root", "PATH": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin", "FOO": "bar", "HELLO": "my beautiful world"}
+    # source /etc/container_environment.sh
+    # echo $HELLO
+    my beautiful world
+
+<a name="modifying_envvars"></a>
+#### Modifying environment variables
+
+It is even possible to modify the environment variables in `my_init` (and therefore the environment variables in all child processes that are spawned after that point in time), by altering the files in `/etc/container_environment`. After each time `my_init` runs a [startup script](#running_startup_scripts), it resets its own environment variables to the state in `/etc/container_environment`, and re-dumps the new environment variables to `container_environment.sh` and `container_environment.json`.
+
+But note that:
+
+ * modifying `container_environment.sh` and `container_environment.json` has no effect.
+ * Runit services cannot modify the environment like that. `my_init` only activates changes in `/etc/container_environment` when running startup scripts.
+
+<a name="envvar_security"></a>
+#### Security
+
+Because environment variables can potentially contain sensitive information, `/etc/container_environment` and its Bash and JSON dumps are by default owned by root, and accessible only by the `docker_env` group (so that any user added this group will have these variables automatically loaded).
+
+If you are sure that your environment variables don't contain sensitive data, then you can also relax the permissions on that directory and those files by making them world-readable:
+
+    RUN chmod 755 /etc/container_environment
+    RUN chmod 644 /etc/container_environment.sh /etc/container_environment.json
+
+<a name="workaroud_modifying_etc_hosts"></a>
+### Working around Docker's inability to modify /etc/hosts
+
+It is currently not possible to modify /etc/hosts inside a Docker container because of [Docker bug 2267](https://github.com/dotcloud/docker/issues/2267). Baseimage-docker includes a workaround for this. You have to be explicitly opt-in for the workaround.
+
+The workaround involves modifying a system library, libnss_files.so.2, so that it looks for the host file in /etc/workaround-docker-2267/hosts instead of /etc/hosts. Instead of modifying /etc/hosts, you modify /etc/workaround-docker-2267/hosts instead.
+
+Add this to your Dockerfile to opt-in for the workaround. This command modifies libnss_files.so.2 as described above.
+
+    RUN /usr/bin/workaround-docker-2267
+
+(You don't necessarily have to run this command from the Dockerfile. You can also run it from a shell inside the container.)
+
+To verify that it works, [open a bash shell in your container](#inspecting), modify /etc/workaround-docker-2267/hosts, and check whether it had any effect:
+
+    bash# echo 127.0.0.1 my-test-domain.com >> /etc/workaround-docker-2267/hosts
+    bash# ping my-test-domain.com
+    ...should ping 127.0.0.1...
+
+**Note on apt-get upgrading:** if any Ubuntu updates overwrite libnss_files.so.2, then the workaround is removed. You have to re-enable it by running `/usr/bin/workaround-docker-2267`. To be safe, you should run this command every time after running `apt-get upgrade`.  
