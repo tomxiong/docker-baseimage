@@ -14,26 +14,18 @@ More importand reference:
 
 
 <a name="using"></a>
-## Using baseimage-docker as base image
+## Using docker-baseimage as base image
 
 <a name="getting_started"></a>
 ### Getting started
 
-The image is called `phusion/baseimage`, and is available on the Docker registry.
+The image is called `angelrr7702/docker-baseimage`, and is available on the Docker registry.
 
-    # Use phusion/baseimage as base image. To make your builds reproducible, make
-    # sure you lock down to a specific version, not to `latest`!
-    # See https://github.com/phusion/baseimage-docker/blob/master/Changelog.md for
-    # a list of version numbers.
-    FROM phusion/baseimage:<VERSION>
+   
+    FROM angelrr7702/docker-baseimage
     
     # Set correct environment variables.
     ENV HOME /root
-    
-    # Regenerate SSH host keys. baseimage-docker does not contain any, so you
-    # have to do that yourself. You may also comment out this instruction; the
-    # init system will auto-generate one during boot.
-    RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
     
     # Use baseimage-docker's init system.
     CMD ["/sbin/my_init"]
@@ -67,7 +59,7 @@ Note that the shell script must run the daemon **without letting it daemonize/fo
 <a name="running_startup_scripts"></a>
 ### Running scripts during container startup
 
-The baseimage-docker init system, `/sbin/my_init`, runs the following scripts during startup, in the following order:
+The docker-baseimage init system, `/sbin/my_init`, runs the following scripts during startup, in the following order:
 
  * All executable scripts in `/etc/my_init.d`, if this directory exists. The scripts are run in lexicographic order.
  * The script `/etc/rc.local`, if this file exists.
@@ -91,7 +83,7 @@ If you use `/sbin/my_init` as the main container command, then any environment v
 
  * Environment variables on Unix are inherited on a per-process basis. This means that it is generally not possible for a child process to change the environment variables of other processes.
  * Because of the aforementioned point, there is no good central place for defining environment variables for all applications and services. Debian has the `/etc/environment` file but it only works in some situations.
- * Some services change environment variables for child processes. Nginx is one such example: it removes all environment variables unless you explicitly instruct it to retain them through the `env` configuration option. If you host any applications on Nginx (e.g. using the [passenger-docker](https://github.com/phusion/passenger-docker) image, or using Phusion Passenger in your own image) then they will not see the environment variables that were originally passed by Docker.
+ * Some services change environment variables for child processes. Nginx is one such example: it removes all environment variables unless you explicitly instruct it to retain them through the `env` configuration option. If you host any applications on Nginx 
 
 `my_init` provides a solution for all these caveats.
 
