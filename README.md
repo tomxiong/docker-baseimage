@@ -125,7 +125,7 @@ Here is an example shell session showing you how the dumps look like:
 
     $ docker run -t -i \
       --env FOO=bar --env HELLO='my beautiful world' \
-      phusion/baseimage:<VERSION> /sbin/my_init -- \
+      angelrr7702/docker-baseimage /sbin/my_init -- \
       bash -l
     ...
     *** Running bash -l...
@@ -210,11 +210,6 @@ This will perform the following:
 For example:
 
     $ docker run phusion/baseimage:<VERSION> /sbin/my_init -- ls
-    *** Running /etc/my_init.d/00_regen_ssh_host_keys.sh...
-    No SSH host key available. Generating one...
-    Creating SSH2 RSA key; this may take some time ...
-    Creating SSH2 DSA key; this may take some time ...
-    Creating SSH2 ECDSA key; this may take some time ...
     *** Running /etc/rc.local...
     *** Booting runit daemon...
     *** Runit started as PID 80
@@ -228,7 +223,7 @@ You may find that the default invocation is too noisy. Or perhaps you don't want
 
 The following example runs `ls` without running the startup files and with less messages, while running all runit services:
 
-    $ docker run phusion/baseimage:<VERSION> /sbin/my_init --skip-startup-files --quiet -- ls
+    $ docker run angelrr7702/docker-baseimage /sbin/my_init --skip-startup-files --quiet -- ls
     bin  boot  dev  etc  home  image  lib  lib64  media  mnt  opt  proc  root  run  sbin  selinux  srv  sys  tmp  usr  var
 
 <a name="run_inside_existing_container"></a>
