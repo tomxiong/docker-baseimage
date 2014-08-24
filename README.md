@@ -179,3 +179,57 @@ To verify that it works, [open a bash shell in your container](#inspecting), mod
     ...should ping 127.0.0.1...
 
 **Note on apt-get upgrading:** if any Ubuntu updates overwrite libnss_files.so.2, then the workaround is removed. You have to re-enable it by running `/usr/bin/workaround-docker-2267`. To be safe, you should run this command every time after running `apt-get upgrade`.  
+
+<a name="container_administration"></a>
+## Container administration
+
+One of the ideas behind Docker is that containers should be stateless, easily restartable, and behave like a black box. However, you may occasionally encounter situations where you want to login to a container, or to run a command inside a container, for development, inspection and debugging purposes. This section describes how you can administer the container for those purposes.
+
+<a name="oneshot"></a>
+### Running a one-shot command in a new container
+
+_**Note:** This section describes how to run a command insider a -new- container. To run a command inside an existing running container, see [Running a command in an existing, running container](#run_inside_existing_container)._
+
+Normally, when you want to create a new container in order to run a single command inside it, and immediately exit after the command exits, you invoke Docker like this:
+
+    docker run YOUR_IMAGE COMMAND ARGUMENTS...
+
+However the downside of this approach is that the init system is not started. That is, while invoking `COMMAND`, important daemons such as cron and syslog are not running. Also, orphaned child processes are not properly reaped, because `COMMAND` is PID 1.
+
+Baseimage-docker provides a facility to run a single one-shot command, while solving all of the aforementioned problems. Run a single command in the following manner:
+
+    docker run YOUR_IMAGE /sbin/my_init -- COMMAND ARGUMENTS ...
+
+This will perform the following:
+
+ * Runs all system startup files, such as /etc/my_init.d/* and /etc/rc.local.
+ * Starts all runit services.
+ * Runs the specified command.
+ * When the specified command exits, stops all runit services.
+
+For example:
+
+    $ docker run phusion/baseimage:<VERSION> /sbin/my_init -- ls
+    *** Running /etc/my_init.d/00_regen_ssh_host_keys.sh...
+    No SSH host key available. Generating one...
+    Creating SSH2 RSA key; this may take some time ...
+    Creating SSH2 DSA key; this may take some time ...
+    Creating SSH2 ECDSA key; this may take some time ...
+    *** Running /etc/rc.local...
+    *** Booting runit daemon...
+    *** Runit started as PID 80
+    *** Running ls...
+    bin  boot  dev  etc  home  image  lib  lib64  media  mnt  opt  proc  root  run  sbin  selinux  srv  sys  tmp  usr  var
+    *** ls exited with exit code 0.
+    *** Shutting down runit daemon (PID 80)...
+    *** Killing all processes...
+
+You may find that the default invocation is too noisy. Or perhaps you don't want to run the startup files. You can customize all this by passing arguments to `my_init`. Invoke `docker run YOUR_IMAGE /sbin/my_init --help` for more information.
+
+The following example runs `ls` without running the startup files and with less messages, while running all runit services:
+
+    $ docker run phusion/baseimage:<VERSION> /sbin/my_init --skip-startup-files --quiet -- ls
+    bin  boot  dev  etc  home  image  lib  lib64  media  mnt  opt  proc  root  run  sbin  selinux  srv  sys  tmp  usr  var
+
+<a name="run_inside_existing_container"></a>
+### Running a command in an existing, running container
