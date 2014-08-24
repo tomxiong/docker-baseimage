@@ -103,3 +103,7 @@ You can verify that it works, as follows:
     *** Running bash -l...
     # echo $MY_NAME
     Apachai Hopachai
+    
+If you've looked carefully, you'll notice that the 'echo' command actually prints a newline. Why does $MY_NAME not contain a newline then? It's because `my_init` strips the trailing newline, if any. If you intended on the value having a newline, you should add *another* newline, like this:
+
+    RUN echo -e "Apachai Hopachai\n" > /etc/container_environment/MY_NAME
