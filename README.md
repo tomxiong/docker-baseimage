@@ -260,9 +260,10 @@ This tool also comes with a precompiled `nsenter` binary, so that you don't have
 
 First, install the tool on the Docker host:
 
-    curl --fail -L -O https://github.com/QuantumObject/docker-baseimage/archive/master.tar.gz && \
+    curl --fail -L -O https://github.com/QuantumObject/docker-tools/archive/master.tar.gz && \
     tar xzf master.tar.gz && \
-    sudo ./docker-baseimage-master/install-tools.sh
+    chmod +x ./docker-tools-master/install-tools.sh &&\
+    sudo ./docker-tools-master/install-tools.sh
 
 Then run the tool as follows to login to a container:
 
