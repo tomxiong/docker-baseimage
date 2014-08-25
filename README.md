@@ -262,7 +262,7 @@ First, install the tool on the Docker host:
 
     curl --fail -L -O https://github.com/QuantumObject/docker-baseimage/archive/master.tar.gz && \
     tar xzf master.tar.gz && \
-    sudo ./baseimage-docker-master/install-tools.sh
+    sudo ./docker-baseimage-master/install-tools.sh
 
 Then run the tool as follows to login to a container:
 
