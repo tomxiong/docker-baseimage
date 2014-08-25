@@ -260,7 +260,7 @@ This tool also comes with a precompiled `nsenter` binary, so that you don't have
 
 First, install the tool on the Docker host:
 
-    curl --fail -L -O https://github.com/phusion/baseimage-docker/archive/master.tar.gz && \
+    curl --fail -L -O https://github.com/QuantumObject/docker-baseimage/archive/master.tar.gz && \
     tar xzf master.tar.gz && \
     sudo ./baseimage-docker-master/install-tools.sh
 
