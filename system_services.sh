@@ -24,6 +24,7 @@ $minimal_apt_get_install runit
 $minimal_apt_get_install syslog-ng-core
 mkdir /etc/service/syslog-ng
 cp /build/runit/syslog-ng /etc/service/syslog-ng/run
+chmod +x /etc/service/syslog-ng/run
 mkdir -p /var/lib/syslog-ng
 cp /build/config/syslog_ng_default /etc/default/syslog-ng
 # Replace the system() source because inside Docker we
@@ -37,6 +38,7 @@ $minimal_apt_get_install logrotate
 $minimal_apt_get_install cron
 mkdir /etc/service/cron
 cp /build/runit/cron /etc/service/cron/run
+chmod +x /etc/service/cron/run
 
 ## Remove useless cron entries.
 # Checks for lost+found and scans for mtab.
