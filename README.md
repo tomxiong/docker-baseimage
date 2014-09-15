@@ -42,8 +42,8 @@ The shell script must be called `run`, must be executable, and is to be placed i
 
 Here's an example showing you how a memcached server runit entry can be made.
 
-    ### In memcached.sh (make sure this file is chmod +x):
     #!/bin/sh
+    ### In memcached.sh (make sure this file is chmod +x):
     # `/sbin/setuser memcache` runs the given command as the user `memcache`.
     # If you omit that part, the command will be run as root.
     exec /sbin/setuser memcache /usr/bin/memcached >>/var/log/memcached.log 2>&1
@@ -66,8 +66,8 @@ All scripts must exit correctly, e.g. with exit code 0. If any script exits with
 
 The following example shows how you can add a startup script. This script simply logs the time of boot to the file /tmp/boottime.txt.
 
-    ### In logtime.sh (make sure this file is chmod +x):
     #!/bin/sh
+    ### In logtime.sh (make sure this file is chmod +x):
     date > /tmp/boottime.txt
 
     ### In Dockerfile:
@@ -202,7 +202,7 @@ This will perform the following:
 
 For example:
 
-    $ docker run phusion/baseimage:<VERSION> /sbin/my_init -- ls
+    $ docker run angelrr7702/docker-baseimage /sbin/my_init -- ls
     *** Running /etc/rc.local...
     *** Booting runit daemon...
     *** Runit started as PID 80
