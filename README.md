@@ -157,26 +157,6 @@ If you are sure that your environment variables don't contain sensitive data, th
     RUN chmod 644 /etc/container_environment.sh /etc/container_environment.json
 
 
-### Working around Docker's inability to modify /etc/hosts
-
-It is currently not possible to modify /etc/hosts inside a Docker container because of [Docker bug 2267](https://github.com/dotcloud/docker/issues/2267). Baseimage-docker includes a workaround for this. You have to be explicitly opt-in for the workaround.
-
-The workaround involves modifying a system library, libnss_files.so.2, so that it looks for the host file in /etc/workaround-docker-2267/hosts instead of /etc/hosts. Instead of modifying /etc/hosts, you modify /etc/workaround-docker-2267/hosts instead.
-
-Add this to your Dockerfile to opt-in for the workaround. This command modifies libnss_files.so.2 as described above.
-
-    RUN /usr/bin/workaround-docker-2267
-
-(You don't necessarily have to run this command from the Dockerfile. You can also run it from a shell inside the container.)
-
-To verify that it works, open a bash shell in your container, modify /etc/workaround-docker-2267/hosts, and check whether it had any effect:
-
-    bash# echo 127.0.0.1 my-test-domain.com >> /etc/workaround-docker-2267/hosts
-    bash# ping my-test-domain.com
-    ...should ping 127.0.0.1...
-
-**Note on apt-get upgrading:** if any Ubuntu updates overwrite libnss_files.so.2, then the workaround is removed. You have to re-enable it by running `/usr/bin/workaround-docker-2267`. To be safe, you should run this command every time after running `apt-get upgrade`.  
-
 ## Container administration
 
 One of the ideas behind Docker is that containers should be stateless, easily restartable, and behave like a black box. However, you may occasionally encounter situations where you want to login to a container, or to run a command inside a container, for development, inspection and debugging purposes. This section describes how you can administer the container for those purposes.
