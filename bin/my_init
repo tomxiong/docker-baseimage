@@ -57,6 +57,7 @@ def is_exe(path):
 		return False
 
 def create_hosts_file():
+	return
 	
 
 def import_envvars(clear_existing_environment = True, override_existing_environment = True):
