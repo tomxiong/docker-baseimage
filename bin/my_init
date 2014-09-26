@@ -57,7 +57,7 @@ def is_exe(path):
 		return False
 
 def create_hosts_file():
-	run_command_killable("/bin/cp", "/etc/hosts", "/etc/workaround-docker-2267/")
+	
 
 def import_envvars(clear_existing_environment = True, override_existing_environment = True):
 	new_env = {}
