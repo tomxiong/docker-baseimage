@@ -1,9 +1,9 @@
 FROM ubuntu:14.04
-MAINTAINER Phusion <info@phusion.nl> QuantumObject <angel@quantumobject.com>
+MAINTAINER QuantumObject <angel@quantumobject.com>
 
 ENV HOME /root
 RUN mkdir -p /build
-ADD . /build
+COPY . /build
 
 RUN chmod 750 /build/prepare.sh && \
 	chmod 750 /build/system_services.sh && \
