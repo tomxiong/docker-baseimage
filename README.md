@@ -17,10 +17,10 @@ More importand reference:
 
 ### Getting started
 
-The image is called `angelrr7702/docker-baseimage`, and is available on the Docker registry.
+The image is called `quantumobject/docker-baseimage`, and is available on the Docker registry.
 
    
-    FROM angelrr7702/docker-baseimage
+    FROM quantumobject/docker-baseimage
     
     # Set correct environment variables.
     ENV HOME /root
@@ -29,9 +29,6 @@ The image is called `angelrr7702/docker-baseimage`, and is available on the Dock
     CMD ["/sbin/my_init"]
     
     # ...put your own build instructions here...
-    
-    # Clean up APT when done.
-    RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 
 ### Adding additional daemons
@@ -122,7 +119,7 @@ Here is an example shell session showing you how the dumps look like:
 
     $ docker run -t -i \
       --env FOO=bar --env HELLO='my beautiful world' \
-      angelrr7702/docker-baseimage /sbin/my_init -- \
+      quantumobject/docker-baseimage /sbin/my_init -- \
       bash -l
     ...
     *** Running bash -l...
@@ -182,7 +179,7 @@ This will perform the following:
 
 For example:
 
-    $ docker run angelrr7702/docker-baseimage /sbin/my_init -- ls
+    $ docker run quantumobject/docker-baseimage /sbin/my_init -- ls
     *** Running /etc/rc.local...
     *** Booting runit daemon...
     *** Runit started as PID 80
@@ -196,7 +193,7 @@ You may find that the default invocation is too noisy. Or perhaps you don't want
 
 The following example runs `ls` without running the startup files and with less messages, while running all runit services:
 
-    $ docker run angelrr7702/docker-baseimage /sbin/my_init --skip-startup-files --quiet -- ls
+    $ docker run quantumobject/docker-baseimage /sbin/my_init --skip-startup-files --quiet -- ls
     bin  boot  dev  etc  home  image  lib  lib64  media  mnt  opt  proc  root  run  sbin  selinux  srv  sys  tmp  usr  var
 
 
