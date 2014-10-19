@@ -198,7 +198,7 @@ The following example runs `ls` without running the startup files and with less 
 
 
 ### Running a command in an existing, running container
-    running bash shell , or running a command inside it, via 'docker exec' 
+Running bash shell , or running a command inside it, via 'docker exec' 
 
 To run the container's bash shell :
 
