@@ -198,57 +198,14 @@ The following example runs `ls` without running the startup files and with less 
 
 
 ### Running a command in an existing, running container
-### Login to the container, or running a command inside it, via nsenter
+### running bash shell , or running a command inside it, via 'docker exec' 
 
-You can use the `nsenter` tool on the Docker host OS to login to any container that is based on baseimage-docker. You can also use it to run a command inside a running container. `nsenter` works by using Linux kernel system calls.
+Then run the container's bash shell :
 
-Here's how it compares:
-
- * Pros
-   * Does not require running an SSH daemon inside the container.
-   * Does not require setting up SSH keys.
-   * Works on any container, even containers not based on baseimage-docker.
- * Cons
-   * Processes executed by `nsenter` behave in a slightly different manner than normal. For example, they cannot be killed by any normal processes inside the container. This applies to all child processes as well.
-   * If the `nsenter` process is terminated by a signal (e.g. with the `kill` command), then the command that is executed by nsenter is *not* killed and cleaned up. You will have to do that manually. (Note that terminal control commands like Ctrl-C *do* clean up all child processes, because terminal signals are sent to all processes in the terminal session.)
-   * Requires learning another tool.
-   * Requires root privileges on the Docker host.
-   * Requires the `nsenter` tool to be available on the Docker host. At the time of writing (July 2014), most Linux distributions do not ship it. However, baseimage-docker provides a precompiled binary, and allows you to easily use it, through its docker_bash tool.
-   * Not possible to allow users to login to the container without also letting them login to the Docker host.
-
-#### Usage
-
-First, ensure that `nsenter` is installed. At the time of writing (July 2014), almost no Linux distribution ships the `nsenter` tool. However, we provide a precompiled binary that anybody can use.
-
-Now that you have the container's main process PID, you can use `nsenter` to login to the container, or to execute a command inside it:
-
-    # Login to the container
-    nsenter --target <MAIN PROCESS PID> --mount --uts --ipc --net --pid bash -l
-
-    # Running a command inside the container
-    nsenter --target <MAIN PROCESS PID> --mount --uts --ipc --net --pid -- echo hello world
+    docker exec -it YOUR-CONTAINER-ID /bin/bash
     
-
-#### The `docker-bash` tool
-
-Looking up the main process PID of a container and typing the long nsenter command quickly becomes tedious. Luckily, we provide the `docker-bash` tool which automates this process. This tool is to be run on the *Docker host*, not inside a Docker container.
-
-This tool also comes with a precompiled `nsenter` binary, so that you don't have to install `nsenter` yourself. `docker-bash` works out-of-the-box!
-
-First, install the tool on the Docker host:
-
-    curl --fail -L -O https://github.com/QuantumObject/docker-tools/archive/master.tar.gz && \
-    tar xzf master.tar.gz && \
-    chmod +x ./docker-tools-master/install-tools.sh &&\
-    sudo ./docker-tools-master/install-tools.sh
-
-Then run the tool as follows to login to a container:
-
-    docker-bash YOUR-CONTAINER-ID
-
 You can lookup `YOUR-CONTAINER-ID` by running `docker ps`.
 
-By default, `docker-bash` will open a Bash session. You can also tell it to run a command, and then exit:
+You can also tell it to run a command, and then exit:
 
-    docker-bash YOUR-CONTAINER-ID echo hello world
-    
+    docker exec -it YOUR-CONTAINER-ID echo hello world
