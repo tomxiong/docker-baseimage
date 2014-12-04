@@ -1,17 +1,9 @@
 docker-baseimage
 ================
 
-docker-baseimage base on phusion/baseimage-docker ... with the difference that only cover the image .. for build trusted repository on docker ... tools and other stuff remove from it ... sshd service at the moment will be commented out/or remove to try without it ... 
+The docker-baseimage base on phusion/baseimage-docker with the difference that only cover the image for build trusted repository on docker. Everything else was remove including  sshd support, tools to access or internal fix for the container that not needed anymore with the present update version of Docker.   
 
-This image will be use to builds others image for quantumobject at the moment ....
-
-
-use documentation from  
-https://github.com/phusion/baseimage-docker 
-
-
-More importand reference:
-
+This image will be use to builds others image for quantumobject at the moment. It will be build periodical to make sure that any security update is include with the last version from ubuntu repository .
 
 ## Using docker-baseimage as base image
 
