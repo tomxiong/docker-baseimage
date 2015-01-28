@@ -1,5 +1,5 @@
 FROM ubuntu:14.10
-MAINTAINER QuantumObject <angel@quantumobject.com>
+MAINTAINER Tom Xiong <tomxiongzh@gmail.com>
 
 ENV HOME /root
 RUN mkdir -p /build

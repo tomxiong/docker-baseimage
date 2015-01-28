@@ -1,18 +1,17 @@
 docker-baseimage
 ================
 
-The docker-baseimage base on phusion/baseimage-docker with the difference that only cover the image for build trusted repository on docker. Everything else was remove including  sshd support, tools to access or internal fix for the container that not needed anymore with the present update version of Docker.   
+The docker-baseimage base on QuantumObject/docker-baseimage based on phusion/baseimage-docker with the difference that only cover the image for build trusted repository on docker. Everything else was remove including  sshd support, tools to access or internal fix for the container that not needed anymore with the present update version of Docker.   
 
-This image will be use to builds others image for quantumobject at the moment. It will be build periodical to make sure that any security update is include with the last version from ubuntu repository .
+This image will be use to builds others image at the moment. It will be build periodical to make sure that any security update is include with the last version from ubuntu repository .
 
 ## Using docker-baseimage as base image
 
 ### Getting started
 
-The image is called `quantumobject/docker-baseimage`, and is available on the Docker registry.
-
+The image is called `tomxiong/docker-baseimage`, and is available on the Docker registry.
    
-    FROM quantumobject/docker-baseimage
+    FROM tomxiong/docker-baseimage
     
     # Set correct environment variables.
     ENV HOME /root
@@ -111,7 +110,7 @@ Here is an example shell session showing you how the dumps look like:
 
     $ docker run -t -i \
       --env FOO=bar --env HELLO='my beautiful world' \
-      quantumobject/docker-baseimage /sbin/my_init -- \
+      tomxiong/docker-baseimage /sbin/my_init -- \
       bash -l
     ...
     *** Running bash -l...
@@ -171,7 +170,7 @@ This will perform the following:
 
 For example:
 
-    $ docker run quantumobject/docker-baseimage /sbin/my_init -- ls
+    $ docker run tomxiong/docker-baseimage /sbin/my_init -- ls
     *** Running /etc/rc.local...
     *** Booting runit daemon...
     *** Runit started as PID 80
@@ -185,7 +184,7 @@ You may find that the default invocation is too noisy. Or perhaps you don't want
 
 The following example runs `ls` without running the startup files and with less messages, while running all runit services:
 
-    $ docker run quantumobject/docker-baseimage /sbin/my_init --skip-startup-files --quiet -- ls
+    $ docker run tomxiong/docker-baseimage /sbin/my_init --skip-startup-files --quiet -- ls
     bin  boot  dev  etc  home  image  lib  lib64  media  mnt  opt  proc  root  run  sbin  selinux  srv  sys  tmp  usr  var
 
 
