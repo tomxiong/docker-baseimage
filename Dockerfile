@@ -1,9 +1,7 @@
 FROM ubuntu:14.10
 MAINTAINER QuantumObject <angel@quantumobject.com>
 
-ENV HOME /root
-RUN mkdir -p /build
-COPY . /build
+ADD . /build
 
 RUN chmod 750 /build/prepare.sh && \
 	chmod 750 /build/system_services.sh && \
