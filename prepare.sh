@@ -4,7 +4,9 @@ source /build/buildconfig
 set -x
 
 ## Temporarily disable dpkg fsync to make building faster.
-echo force-unsafe-io > /etc/dpkg/dpkg.cfg.d/02apt-speedup
+if [[ ! -e /etc/dpkg/dpkg.cfg.d/docker-apt-speedup ]]; then
+	echo force-unsafe-io > /etc/dpkg/dpkg.cfg.d/docker-apt-speedup
+fi
 
 ## Prevent initramfs updates from trying to run grub and lilo.
 ## https://journal.paul.querna.org/articles/2013/10/15/docker-ubuntu-on-rackspace/
@@ -43,3 +45,6 @@ apt-get dist-upgrade -y --no-install-recommends
 ## Fix locale.
 $minimal_apt_get_install language-pack-en
 locale-gen en_US
+update-locale LANG=en_US.UTF-8 LC_CTYPE=en_US.UTF-8
+echo -n en_US.UTF-8 > /etc/container_environment/LANG
+echo -n en_US.UTF-8 > /etc/container_environment/LC_CTYPE
