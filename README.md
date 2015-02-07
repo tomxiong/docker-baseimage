@@ -14,9 +14,6 @@ The image is called `quantumobject/docker-baseimage`, and is available on the Do
    
     FROM quantumobject/docker-baseimage
     
-    # Set correct environment variables.
-    ENV HOME /root
-    
     # Use baseimage-docker's init system.
     CMD ["/sbin/my_init"]
     
