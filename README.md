@@ -19,6 +19,24 @@ The image is called `quantumobject/docker-baseimage`, and is available on the Do
     
     # ...put your own build instructions here...
 
+### Using different ubuntu release 
+
+The docker-baseimage is base on ubuntu image , you can define what version of ubuntu you want to used by using tags
+
+      # for Ubuntu Utopic Unicorn
+      FROM quantumobject/docker-baseimage:14.10
+   
+or 
+
+      # for Ubuntu Vivid Veret
+      FROM  quantumobject/docker-baseimage:15.04
+
+ or
+   
+      # for ubuntu Wily Werewolf
+      FROM quantumobject/docker-baseimage:15.10
+
+At the moment if not define it will used Utopic Unicorn(14.10)
 
 ### Adding additional daemons
 
