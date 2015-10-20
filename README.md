@@ -1,9 +1,9 @@
 docker-baseimage
 ================
 
-The docker-baseimage base on phusion/baseimage-docker with the difference that only cover the image for build trusted repository on docker. Everything else was remove including  sshd support, tools to access or internal fix for the container that not needed anymore with the present update version of Docker.   
+The docker-baseimage base on phusion/baseimage-docker with the difference that only cover the image for build trusted repository on docker. Everything else was remove including  sshd support, tools to access or internal fix for the container that not needed anymore with the present update version of Docker. The other difference that it support tags to use different version of Ubuntu (14.10, 15.04 and 15.10)
 
-This image will be use to builds others image for quantumobject at the moment. It will be build periodical to make sure that any security update is include with the last version from ubuntu repository .
+This image will be use to builds others image for [quantumobject](http://www.quantumobject.com) at the moment. It will be build periodical to make sure that any security update is include with the last version from ubuntu repository .
 
 ## Using docker-baseimage as base image
 
@@ -216,3 +216,5 @@ You can lookup `YOUR-CONTAINER-ID` by running `docker ps`.
 You can also tell it to run a command, and then exit:
 
     docker exec -it YOUR-CONTAINER-ID echo hello world
+
+For additional info about us and our projects check our site [www.quantumobject.com](http://www.quantumobject.com)
