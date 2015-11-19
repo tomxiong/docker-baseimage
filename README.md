@@ -1,7 +1,7 @@
 docker-baseimage
 ================
 
-The docker-baseimage base on phusion/baseimage-docker with the difference that only cover the image for build trusted repository on docker. Everything else was remove including  sshd support, tools to access or internal fix for the container that not needed anymore with the present update version of Docker. The other difference that it support tags to use different version of Ubuntu (14.10, 15.04 and 15.10)
+The docker-baseimage base on phusion/baseimage-docker with the difference that only cover the image for build trusted repository on docker. Everything else was remove including  sshd support, tools to access or internal fix for the container that not needed anymore with the present update version of Docker. The other difference that it support tags to use different version of Ubuntu (15.04 and 15.10)
 
 This image will be use to builds others image for [quantumobject](http://www.quantumobject.com) at the moment. It will be build periodical to make sure that any security update is include with the last version from ubuntu repository .
 
@@ -23,11 +23,6 @@ The image is called `quantumobject/docker-baseimage`, and is available on the Do
 
 The docker-baseimage is base on ubuntu image , you can define what version of ubuntu you want to used by using tags
 
-      # for Ubuntu Utopic Unicorn
-      FROM quantumobject/docker-baseimage:14.10
-   
-or 
-
       # for Ubuntu Vivid Veret
       FROM  quantumobject/docker-baseimage:15.04
 
@@ -36,7 +31,7 @@ or
       # for ubuntu Wily Werewolf
       FROM quantumobject/docker-baseimage:15.10
 
-At the moment if not define it will used Utopic Unicorn(14.10)
+At the moment if not define it will used Vivid Veret(15.04)
 
 ### Adding additional daemons
 
