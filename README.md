@@ -212,4 +212,4 @@ You can also tell it to run a command, and then exit:
 
     docker exec -it YOUR-CONTAINER-ID echo hello world
 
-For additional info about us and our projects check our site [www.quantumobject.com](http://www.quantumobject.com)
+For additional info about us and our projects check our site [www.quantumobject.org](https://www.quantumobject.org)
