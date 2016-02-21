@@ -33,7 +33,6 @@ The docker-baseimage is base on ubuntu image , you can define what version of ub
       # for ubuntu Wily Werewolf
       FROM quantumobject/docker-baseimage:15.10
 
-At the moment if not define it will used Vivid Veret(15.04)
 
 ### Adding additional daemons
 
