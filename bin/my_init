@@ -124,9 +124,7 @@ export_envvars
 
 
 #condition for --help
-if ! (([ `echo $temp_var | grep -c "\-\-help" ` -gt 0 ] || [ `echo $temp_var | grep -c "\-h" ` -gt 0 ])) ; then
-  :
- else
+if [ `echo $temp_var | grep -c "\-\-help" ` -gt 0 ] || [ `echo $temp_var | grep -c "\-h" ` -gt 0 ] ; then
   message
   exit 0
 fi
