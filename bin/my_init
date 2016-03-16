@@ -85,7 +85,7 @@ run_startup_files() {
 
 start_runit () {
    echo "Booting runit daemon..."
-   /sbin/runsvdir -P /etc/service 'log:.........................................................................................................' &
+   /usr/bin/runsvdir -P /etc/service 'log:.........................................................................................................' &
    runsvdir_PID=$!
    echo "Process runsvdir running with PID $runsvdir_PID"
 }
