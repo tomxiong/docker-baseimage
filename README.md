@@ -1,3 +1,5 @@
+test : move away from phusion/baseimage-docker  ... replace the python script for bash script . move to used default crond and other tools like svlogd, pstree from runit that already installed but phusion fail to used them.  
+
 update 3/3/2016
 
 docker-baseimage
