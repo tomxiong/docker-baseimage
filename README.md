@@ -1,9 +1,10 @@
-update 3/3/2016
+update 3/16/2016
+size: 163.3 MB
 
 docker-baseimage
 ================
 
-The docker-baseimage base on phusion/baseimage-docker with the difference that only cover the image for build trusted repository on docker. Everything else was remove including  sshd support, tools to access or internal fix for the container that not needed anymore with the present update version of Docker. The other difference that it support tags to use different version of Ubuntu (15.04 and 15.10)
+The docker-baseimage base on ubuntu with runit to be able to run different process inside the container. It is using default tools already include in runit for logs,cron,etc (svlogd,crond,pstree,sv,chpst). it support tags (15.04 and 15.10)
 
 This image will be use to builds others image for [quantumobject](http://www.quantumobject.com) at the moment. It will be build periodical to make sure that any security update is include with the last version from ubuntu repository .
 
@@ -44,16 +45,32 @@ Here's an example showing you how a memcached server runit entry can be made.
 
     #!/bin/sh
     ### In memcached.sh (make sure this file is chmod +x):
-    # `/sbin/setuser memcache` runs the given command as the user `memcache`.
+    # `chpst -u memcache` runs the given command as the user `memcache`.
     # If you omit that part, the command will be run as root.
-    exec /sbin/setuser memcache /usr/bin/memcached >>/var/log/memcached.log 2>&1
+    exec 2>&1 chpst -u memcache /usr/bin/memcached
 
     ### In Dockerfile:
     RUN mkdir /etc/service/memcached
     ADD memcached.sh /etc/service/memcached/run
+    RUN chmod +x /etc/service/memcached/run
 
 Note that the shell script must run the daemon **without letting it daemonize/fork it**. Usually, daemons provide a command line flag or a config file option for that.
 
+### Adding logs for your daemons services
+
+You can add log for the service using already include commad and procedure on runit. In this case you need to add another `run` script at directory `/etc/service/<NAME>/log` 
+
+        #!/bin/sh
+        #need to make sure /var/log/<name> already create.
+        exec chpst -u nobody svlogd -t /var/log/memcached/
+
+        ### In Dockerfile:
+        RUN mkdir /etc/service/memcached/log
+        RUN mkdir /var/log/memcached
+        RUN cp /var/log/cron/config /var/log/memcached/config  # copy config for svlogd from cron config
+        ADD memcached_log.sh /etc/service/memcached/log/run
+        RUN chown -R nobody /var/log/memcached
+        RUN chmod +x  /etc/service/memcached/log/run
 
 ### Running scripts during container startup
 
