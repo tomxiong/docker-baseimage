@@ -33,18 +33,13 @@ ln -sf /bin/true /sbin/initctl
 dpkg-divert --local --rename --add /usr/bin/ischroot
 ln -sf /bin/true /usr/bin/ischroot
 
-
-## Install HTTPS support for APT.
-$minimal_apt_get_install apt-transport-https ca-certificates
-
-## Install add-apt-repository
-$minimal_apt_get_install software-properties-common
-
 ## Upgrade all packages.
 apt-get dist-upgrade -y --no-install-recommends
 
+## Install HTTPS support for APT.
+$minimal_apt_get_install apt-utils apt-transport-https ca-certificates language-pack-en
+
 ## Fix locale.
-$minimal_apt_get_install language-pack-en
 locale-gen en_US.UTF-8
 update-locale LANG=en_US.UTF-8 LC_CTYPE=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8 
 echo -n en_US.UTF-8 > /etc/container_environment/LANG
