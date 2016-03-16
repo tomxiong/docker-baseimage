@@ -43,7 +43,7 @@ export_envvars () {
    continue
   else
    # write to files ..
-    if [ $to_dir == true ] ; then echo $file_val > /etc/container_environment/$file_name ; fi
+    if [ $to_dir = true ] ; then echo $file_val > /etc/container_environment/$file_name ; fi
    #write to .sh file
     echo "export"  $file_name"='"$file_val"'" >> /etc/container_environment.sh
    #write to .json file
@@ -93,10 +93,10 @@ start_runit () {
 shutdown_runit_services() {
    #need to check if runit service is runnung before shutdown ..
    echo "Begin shutting down runit services..."
-   /sbin/sv down /etc/service/*
+   /usr/bin/sv down /etc/service/*
    #need to give some time and check if service is down if time greater than allow them force exit
    count=1
-   while [ $(/sbin/sv status /etc/service/* | grep -c "^run:") != 0 ]
+   while [ $(/usr/bin/sv status /etc/service/* | grep -c "^run:") != 0 ]
    do
      sleep 1
      count=`expr $count + 1`
@@ -165,7 +165,7 @@ fi
 
 if  [ `echo $temp_var | grep -c "\-\- " ` -gt 0 ] ; then
 temp_var=$(echo $temp_var|sed "s/--//")
- if ! [ "$temp_var" == "" ] ; then
+ if ! [ "$temp_var" = "" ] ; then
      #need to check if all service are online before executing command
      count=1
      while [ $(/sbin/sv status /etc/service/* | grep -c "^down:") != 0 ]
