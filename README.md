@@ -1,5 +1,5 @@
 update 3/16/2016
-size: unknow
+size: 161.8 MB
 
 docker-baseimage
 ================
