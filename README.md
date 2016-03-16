@@ -1,6 +1,8 @@
 update 3/16/2016
 size: 163.3 MB
 
+For smaller image size please check [QuantumObject/docker-alpine](https://github.com/QuantumObject/docker-alpine)
+
 docker-baseimage
 ================
 
