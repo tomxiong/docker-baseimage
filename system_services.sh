@@ -53,4 +53,10 @@ rm -f /etc/cron.daily/standard
 rm -f /etc/cron.daily/upstart
 rm -f /etc/cron.daily/dpkg
 rm -f /etc/cron.daily/password
-rm -f /etc/cron.weekly/fstrim
+rm -f /etc/cron.weekly/fstrim 
+
+apt-get clean
+rm -rf /build
+rm -rf /tmp/* /var/tmp/*
+rm -rf /var/lib/apt/lists/*
+rm -f /etc/dpkg/dpkg.cfg.d/02apt-speedup
