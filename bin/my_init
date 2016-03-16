@@ -125,7 +125,7 @@ export_envvars
 
 #condition for --help
 if ! (([ `echo $temp_var | grep -c "\-\-help" ` -gt 0 ] || [ `echo $temp_var | grep -c "\-h" ` -gt 0 ])) ; then
-  continue
+  :
  else
   message
   exit 0
@@ -133,7 +133,7 @@ fi
 
 #condition for --quiet
 if ! [ `echo $temp_var | grep -c "\-\-quiet" ` -gt 0 ] ; then
-   continue
+   :
  else
    temp_var=$(echo $temp_var|sed "s/--quiet//")
    echo "--quiet still need to be implememted"
