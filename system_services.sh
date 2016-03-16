@@ -72,7 +72,7 @@ chmod 600 /etc/crontabs
 cp /build/runit/cron /etc/service/cron/run
 cp /build/runit/cron_log /etc/service/cron/log/run
 cp /build/config/cron_log_config /var/log/cron/config
-chown -R cron  /var/log/cron
+chown -R nobody  /var/log/cron
 chmod +x /etc/service/cron/run /etc/service/cron/log/run
 
 ## Remove useless cron entries.  Need to check if this still apply ... 
