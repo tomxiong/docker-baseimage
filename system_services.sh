@@ -55,6 +55,7 @@ rm -f /etc/cron.daily/dpkg
 rm -f /etc/cron.daily/password
 rm -f /etc/cron.weekly/fstrim 
 
+#cleanup
 apt-get clean
 rm -rf /build
 rm -rf /tmp/* /var/tmp/*
