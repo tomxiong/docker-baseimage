@@ -1,5 +1,5 @@
 update 3/16/2016
-size: 161.8 MB
+size: 163.3 MB
 
 docker-baseimage
 ================
@@ -52,6 +52,7 @@ Here's an example showing you how a memcached server runit entry can be made.
     ### In Dockerfile:
     RUN mkdir /etc/service/memcached
     ADD memcached.sh /etc/service/memcached/run
+    RUN chmod +x /etc/service/memcached/run
 
 Note that the shell script must run the daemon **without letting it daemonize/fork it**. Usually, daemons provide a command line flag or a config file option for that.
 
@@ -61,13 +62,15 @@ You can add log for the service using already include commad and procedure on ru
 
         #!/bin/sh
         #need to make sure /var/log/<name> already create.
-        exec svlogd -t /var/log/memcached/
+        exec chpst -u nobody svlogd -t /var/log/memcached/
 
         ### In Dockerfile:
         RUN mkdir /etc/service/memcached/log
         RUN mkdir /var/log/memcached
         RUN cp /var/log/cron/config /var/log/memcached/config  # copy config for svlogd from cron config
         ADD memcached_log.sh /etc/service/memcached/log/run
+        RUN chown -R nobody /var/log/memcached
+        RUN chmod +x  /etc/service/memcached/log/run
 
 ### Running scripts during container startup
 
