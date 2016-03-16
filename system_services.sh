@@ -1,7 +1,8 @@
 #!/bin/bash
-set -e
-source /build/buildconfig
-set -x
+
+export LC_ALL=C
+export DEBIAN_FRONTEND=noninteractive
+minimal_apt_get_install='apt-get install -y --no-install-recommends'
 
 ## Install init process.
 cp /build/bin/my_init /sbin/
