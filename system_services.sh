@@ -86,6 +86,11 @@ rm -f /etc/cron.weekly/fstrim
 ## Often used tools.
 $minimal_apt_get_install curl less nano psmisc wget
 
+#fix other small problem.
+rm /bin/sh
+ln -s /bin/bash /bin/sh
+echo `. /etc/lsb-release; echo ${DISTRIB_CODENAME/*, /}` >> /etc/container_environment/DISTRIB_CODENAME
+
 #cleanup
 apt-get clean
 rm -rf /build
