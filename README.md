@@ -64,14 +64,14 @@ You can add log for the service using already include commad and procedure on ru
 
         #!/bin/sh
         #need to make sure /var/log/<name> already create.
-        exec chpst -u nobody svlogd -t /var/log/memcached/
+        exec chpst -u memcache svlogd -t /var/log/memcached/
 
         ### In Dockerfile:
         RUN mkdir /etc/service/memcached/log
         RUN mkdir /var/log/memcached
         RUN cp /var/log/cron/config /var/log/memcached/config  # copy config for svlogd from cron config
         ADD memcached_log.sh /etc/service/memcached/log/run
-        RUN chown -R nobody /var/log/memcached
+        RUN chown -R memcache /var/log/memcached
         RUN chmod +x  /etc/service/memcached/log/run
 
 ### Running scripts during container startup
