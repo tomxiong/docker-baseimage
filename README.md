@@ -6,7 +6,7 @@ For smaller image size please check [QuantumObject/docker-alpine](https://github
 docker-baseimage
 ================
 
-The docker-baseimage base on ubuntu with runit to be able to run different process inside the container. It is using default tools already include in runit for logs,cron,etc (svlogd,crond,pstree,sv,chpst). it support tags (15.04 and 15.10)
+The docker-baseimage base on ubuntu with runit to be able to run different process inside the container. It is using default tools already include in runit for logs,cron,etc (svlogd,crond,pstree,sv,chpst). it support tags (15.04, 15.10 and 16.04)
 
 This image will be use to builds others image for [quantumobject](http://www.quantumobject.com) at the moment. It will be build periodical to make sure that any security update is include with the last version from ubuntu repository .
 
@@ -58,21 +58,6 @@ Here's an example showing you how a memcached server runit entry can be made.
 
 Note that the shell script must run the daemon **without letting it daemonize/fork it**. Usually, daemons provide a command line flag or a config file option for that.
 
-### Adding logs for your daemons services
-
-You can add log for the service using already include commad and procedure on runit. In this case you need to add another `run` script at directory `/etc/service/<NAME>/log` 
-
-        #!/bin/sh
-        #need to make sure /var/log/<name> already create.
-        exec chpst -u memcache svlogd -t /var/log/memcached/
-
-        ### In Dockerfile:
-        RUN mkdir /etc/service/memcached/log
-        RUN mkdir /var/log/memcached
-        RUN cp /var/log/cron/config /var/log/memcached/config  # copy config for svlogd from cron config
-        ADD memcached_log.sh /etc/service/memcached/log/run
-        RUN chown -R memcache /var/log/memcached
-        RUN chmod +x  /etc/service/memcached/log/run
 
 ### Running scripts during container startup
 
