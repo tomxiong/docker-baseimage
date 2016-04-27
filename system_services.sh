@@ -66,14 +66,12 @@ $minimal_apt_get_install runit cron
 
 ## Install cron daemon.
 mkdir -p /etc/service/cron
-mkdir -p /etc/service/cron/log
 mkdir -p /var/log/cron
 chmod 600 /etc/crontabs
 cp /build/runit/cron /etc/service/cron/run
-cp /build/runit/cron_log /etc/service/cron/log/run
 cp /build/config/cron_log_config /var/log/cron/config
 chown -R nobody  /var/log/cron
-chmod +x /etc/service/cron/run /etc/service/cron/log/run
+chmod +x /etc/service/cron/run
 
 ## Remove useless cron entries.  Need to check if this still apply ... 
 # Checks for lost+found and scans for mtab.
