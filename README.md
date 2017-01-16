@@ -1,24 +1,25 @@
 Baseimage between 140MB and 180MB depend of the ubuntu distribution. 
 
-For smaller Baseimage size please check [QuantumObject/docker-alpine](https://github.com/QuantumObject/docker-alpine)
+For smaller Baseimage size please check [tomxiong/docker-alpine](https://github.com/tomxiong/docker-alpine)
 
 docker-baseimage
 ================
-[![](https://images.microbadger.com/badges/image/quantumobject/docker-baseimage.svg)](https://microbadger.com/images/quantumobject/docker-baseimage "Get your own image badge on microbadger.com")
 
+The docker-baseimage base on QuantumObject/docker-baseimage based on phusion/baseimage-docker with the difference that only cover the image for build trusted repository on docker. Everything else was remove including  sshd support, tools to access or internal fix for the container that not needed anymore with the present update version of Docker.   
 
 The docker-baseimage base on ubuntu with runit to be able to run different process inside the container. It is using default tools already include in runit for logs,cron,etc (svlogd,crond,pstree,sv,chpst). it support tags (15.04, 15.10 and 16.04)
 
-This image will be use to builds others image for [quantumobject](http://www.quantumobject.com) at the moment. It will be build periodical to make sure that any security update is include with the last version from ubuntu repository .
 
 ## Using docker-baseimage as base image
 
 ### Getting started
 
-The image is called `quantumobject/docker-baseimage`, and is available on the Docker registry.
-
+The image is called `tomxiong/docker-baseimage`, and is available on the Docker registry.
    
-    FROM quantumobject/docker-baseimage
+    FROM tomxiong/docker-baseimage
+    
+    # Set correct environment variables.
+    ENV HOME /root
     
     # Use baseimage-docker's init system.
     CMD ["/sbin/my_init"]
@@ -30,12 +31,12 @@ The image is called `quantumobject/docker-baseimage`, and is available on the Do
 The docker-baseimage is base on ubuntu image , you can define what version of ubuntu you want to used by using tags
 
       # for Ubuntu Vivid Veret
-      FROM  quantumobject/docker-baseimage:15.04
+      FROM  tomxiong/docker-baseimage:15.04
 
  or
    
       # for ubuntu Wily Werewolf
-      FROM quantumobject/docker-baseimage:15.10
+      FROM tomxiong/docker-baseimage:15.10
 
 
 ### Adding additional daemons
@@ -127,7 +128,7 @@ Here is an example shell session showing you how the dumps look like:
 
     $ docker run -t -i \
       --env FOO=bar --env HELLO='my beautiful world' \
-      quantumobject/docker-baseimage /sbin/my_init -- \
+      tomxiong/docker-baseimage /sbin/my_init -- \
       bash -l
     ...
     *** Running bash -l...
@@ -187,7 +188,7 @@ This will perform the following:
 
 For example:
 
-    $ docker run quantumobject/docker-baseimage /sbin/my_init -- ls
+    $ docker run tomxiong/docker-baseimage /sbin/my_init -- ls
     *** Running /etc/rc.local...
     *** Booting runit daemon...
     *** Runit started as PID 80
@@ -201,7 +202,7 @@ You may find that the default invocation is too noisy. Or perhaps you don't want
 
 The following example runs `ls` without running the startup files and with less messages, while running all runit services:
 
-    $ docker run quantumobject/docker-baseimage /sbin/my_init --skip-startup-files --quiet -- ls
+    $ docker run tomxiong/docker-baseimage /sbin/my_init --skip-startup-files --quiet -- ls
     bin  boot  dev  etc  home  image  lib  lib64  media  mnt  opt  proc  root  run  sbin  selinux  srv  sys  tmp  usr  var
 
 
@@ -217,5 +218,3 @@ You can lookup `YOUR-CONTAINER-ID` by running `docker ps`.
 You can also tell it to run a command, and then exit:
 
     docker exec -it YOUR-CONTAINER-ID echo hello world
-
-For additional info about us and our projects check our site [www.quantumobject.org](https://www.quantumobject.org)

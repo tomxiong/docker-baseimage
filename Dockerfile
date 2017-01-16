@@ -1,5 +1,5 @@
 FROM ubuntu:16.04
-MAINTAINER QuantumObject <angel@quantumobject.com>
+MAINTAINER Tom Xiong <tomxiongzh@gmail.com>
 
 ADD . /build
 RUN chmod 750 /build/system_services.sh
