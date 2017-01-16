@@ -1,4 +1,4 @@
-FROM ubuntu:15.10
+FROM ubuntu:15.04
 MAINTAINER Tom Xiong <tomxiongzh@gmail.com>
 
 ADD . /build
